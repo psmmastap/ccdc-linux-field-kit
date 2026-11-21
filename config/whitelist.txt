@@ -14,3 +14,7 @@
 # whitelist of processes/IPs and any other protected accounts.
 
 whiteteam
+user
+ceroc
+cloudbase-init
+fleet-automation@prime.time

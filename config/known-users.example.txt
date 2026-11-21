@@ -3,4 +3,24 @@
 # Later account-audit runs flag anything NOT in this list as "new/unknown".
 # One account name per line. whiteteam is protected separately in whitelist.txt.
 
+blueteam
+chris.hansen
+andie.bender
+Administrator
+sa
+postgres
+admin
 root
+dan.plum
+xavier.vonerck
+cortland.gunn
+maryjoan.hansen
+bill.conradt
+del.harvey
+jeff.zucker
+jim.christian
+stone.phillips
+patty.patterson
+michael.chachere
+svc_sql
+fleet
