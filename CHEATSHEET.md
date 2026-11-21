@@ -86,6 +86,7 @@ journalctl -xeu UNIT; ss -lntup | grep <port>; df -h
 ## Database quick refs
 
 MySQL/MariaDB: `mysql -u root -p` · `SELECT user,host,plugin FROM mysql.user;` · `SHOW PLUGINS;` · `ALTER USER 'u'@'h' IDENTIFIED BY '...';` · `DROP USER 'u'@'h';`
+MSSQL (sting): `sqlcmd -S localhost -U sa -P '...'` · `SELECT name FROM sys.databases;` · `SELECT name FROM sys.sql_logins;` · `ALTER LOGIN sa WITH PASSWORD = '...';` — scored login: sa. Port 1433.
 PostgreSQL: `sudo -u postgres psql` · `SELECT rolname,rolcanlogin,rolsuper FROM pg_roles;` · `\du` · `\l` · `ALTER ROLE r WITH PASSWORD '...';` · `\dx`
 SQLite: never copy a live DB/WAL file—use `sqlite3 DB ".backup 'out.db'"`.
 Read-only sweep of both: `sudo python3 service/db_audit.py`.

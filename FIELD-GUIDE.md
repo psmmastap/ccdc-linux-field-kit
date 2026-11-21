@@ -51,9 +51,11 @@ Docker: `docker commit` EXCLUDES volumes; record mounts/back up volumes separate
 
 ## Credentials (coordinated, unique, dependency-aware)
 
-Menu item 6 audits accounts, menu item 7 rotates passwords (list-first; nothing changes until the script's `--apply` mode; whitelisted accounts are refused). Details:
+**SCORED-ACCOUNT RULE (packet section 7): the scoring engine logs in as the story users, `sa` and `postgres` with the packet's passwords. Those passwords must KEEP WORKING - rotation/locking/removal of any account in `config/whitelist.txt` is off the table. All 7.1/7.2 names are pre-loaded in the whitelist.**
 
-- Interactive `passwd USER` per account; PostgreSQL `\password ROLE`. Never batch-reset UID≥1000 to one password. `whiteteam` and protected identities are never offered.
+- **You CAN rotate (not in whitelist):** unknown/rogue accounts found on boxes, and your own `blueteam` (remove it from the whitelist first, keep a session open, update jumpbox access). Rogue/backdoor accounts: lock + remove keys.
+- **You CANNOT rotate but CAN contain** the weak scored passwords (`postgres`/`postgres`, `root`/`root`, `admin`/`admin`) at the network layer: firewall DB/web ports to scoring-engine + admin sources only; PostgreSQL `pg_hba.conf` host restriction for the `postgres` role; MySQL host restriction `'root'@'%'` → scoring IP. Scoring logins keep working; red team's remote logins with the packet password stop working.
+- Menu item 6 audits accounts, menu item 7 rotates passwords (list-first; nothing changes until the script's `--apply` mode; whitelisted accounts are refused).
 - Locking an account does NOT kill existing sessions/keys/tokens—remove keys (`authorized_keys` per user), then rotate app/DB credentials and update the apps that use them.
 - SSH config changes: `sshd -T` to verify effective config, `sshd -t` before restart, keep a working session open, test a NEW login, then retire old access.
 - App configs may embed DB credentials—rotate together and re-verify scoring.
