@@ -14,6 +14,17 @@
 # whitelist of processes/IPs and any other protected accounts.
 #
 # ============================================================================
+# SECTION 7.3 DO-NOT-TOUCH (official list)
+# ============================================================================
+user
+ceroc
+cloudbase-init
+fleet-automation
+# fleet-automation@prime.time is the domain form; on Linux boxes it appears
+# as the fleet-automation account above. (Windows-side, cloudbase-init is the
+# provisioning agent - also present on Windows boxes, still never touch.)
+
+# ============================================================================
 # SCORED ACCOUNTS (from packet section 7) - the scoring engine logs in as the
 # story users, sa and postgres, USING THE PASSWORDS IN THE PACKET. Rotating,
 # locking or removing ANY of these = scored-service outage. Never touch.
