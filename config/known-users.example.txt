@@ -1,0 +1,6 @@
+# Example: rename to known-users.txt and list the interactive accounts that
+# existed when the box was handed to you (from the morning account audit).
+# Later account-audit runs flag anything NOT in this list as "new/unknown".
+# One account name per line. whiteteam is protected separately in whitelist.txt.
+
+root

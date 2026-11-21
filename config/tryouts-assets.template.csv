@@ -1,0 +1,9 @@
+team,hostname_suffix,ip_template,services_from_pdf,actual_hostname,os_and_version,actual_products,scored_ports,dependencies,whitelisted_sources,approved_backup_path,notes
+X,ctrl-rm,192.168.X.86,"ADDS; LDAP; DNS; Remote Access",,,,,,,,"Verify role ownership and Linux dependencies; do not assume all hosts are Linux"
+X,sting,192.168.X.53,"Database; Web; Remote Access",,,,,,,,"Discover product and app-to-database dependencies"
+X,certified,192.168.X.109,"Certificates; File Sharing; Remote Access",,,,,,,,"Discover CA and file-sharing protocols"
+X,lookup,192.168.X.23,"DNS; Remote Access",,,,,,,,"Verify DNS UDP/TCP and expected answers"
+X,whale,192.168.X.11,"Web; Database; Credentials; Remote Access",,,,,,,,"Credentials product unspecified in PDF"
+X,andie,192.168.X.40,"Orchestration/HTTP; Remote Access",,,,,,,,"Do not assume Kubernetes or Docker"
+X,chris,192.168.X.78,"Device Management; Remote Access",,,,,,,,"Device-management product unspecified"
+X,comms,192.168.X.99,"Mail; Remote Access",,,,,,,,"Discover scored mail protocols and test end-to-end flow"

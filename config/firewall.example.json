@@ -1,0 +1,10 @@
+{
+  "reviewed_for_this_host": false,
+  "notes": "EXAMPLES ONLY. Replace documentation networks and service dependencies. /0 means public to that address family. No rules are applied by the toolkit.",
+  "allow": [
+    {"name": "admin SSH", "protocol": "tcp", "port": 22, "sources": ["192.0.2.0/24", "2001:db8:1::/64"]},
+    {"name": "public web", "protocol": "tcp", "port": 80, "sources": ["0.0.0.0/0", "::/0"]},
+    {"name": "public TLS web", "protocol": "tcp", "port": 443, "sources": ["0.0.0.0/0", "::/0"]},
+    {"name": "app to database (example only)", "protocol": "tcp", "port": 3306, "sources": ["192.0.2.20/32"]}
+  ]
+}

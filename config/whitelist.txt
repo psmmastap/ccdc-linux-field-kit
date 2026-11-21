@@ -1,0 +1,16 @@
+# PROTECTED LIST - rule 3.5 (whiteteam) and rule 3.6 (whitelisted processes/IPs)
+#
+# Every toolkit script that could modify accounts, kill processes or change
+# firewall rules reads this file and REFUSES to touch anything listed here.
+#
+# Format: one entry per line. Entries may be:
+#   - account names  (password rotation, account audit, hunting: untouchable)
+#   - IPv4/IPv6 addresses or CIDR networks (firewall: force-ALLOWED, never blocked)
+#   - process names  (hunting: never kill, flagged as "whitelisted, leave alone")
+#
+# Lines starting with # and blank lines are ignored.
+#
+# UPDATE THIS FILE FIRST THING ON COMPETITION DAY with the day's official
+# whitelist of processes/IPs and any other protected accounts.
+
+whiteteam

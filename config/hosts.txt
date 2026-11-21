@@ -1,0 +1,19 @@
+# SCORED HOST ROSTER (from tryout PDF). $TEAM expands to TEAM_NUMBER from config/team.conf
+# (or the TEAM_NUMBER environment variable). All 8 hosts start ENABLED - after
+# `sh fleet.sh oscheck`, comment out every non-Linux box (they're not your role).
+# fleet.sh needs one ssh target per line; adjust user@ day-of if officials say so.
+#
+# PRIORITY (score-impact guess - verify against the day's scoreboard):
+#   comms (Mail) and sting (Database+Web) first - hardest to rebuild, longest outages.
+#
+# ctrl-rm runs ADDS/LDAP = Windows AD DC: oscheck will flag it - comment it out.
+#
+# --- SERVICE HOSTS ---
+root@192.168.$TEAM.86       # Team$TEAM-ctrl-rm    ADDS, LDAP, DNS, Remote
+root@192.168.$TEAM.53       # Team$TEAM-sting      Database, Web, Remote
+root@192.168.$TEAM.109      # Team$TEAM-certified  Certificates, File Sharing
+root@192.168.$TEAM.23       # Team$TEAM-lookup     DNS, Remote
+root@192.168.$TEAM.11       # Team$TEAM-whale      Web, DB, Credentials
+root@192.168.$TEAM.40       # Team$TEAM-andie      Orchestration/HTTP
+root@192.168.$TEAM.78       # Team$TEAM-chris      Device Management
+root@192.168.$TEAM.99       # Team$TEAM-comms      Mail, Remote

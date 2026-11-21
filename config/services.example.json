@@ -1,0 +1,20 @@
+[
+  {
+    "name": "local SSH listener (TCP only)",
+    "kind": "tcp",
+    "host": "127.0.0.1",
+    "port": 22
+  },
+  {
+    "name": "local website content",
+    "kind": "http",
+    "url": "http://127.0.0.1/",
+    "expect_status": 200,
+    "contains": "REPLACE_WITH_KNOWN_GOOD_TEXT"
+  },
+  {
+    "name": "web server unit (adjust for distro)",
+    "kind": "systemd",
+    "unit": "nginx.service"
+  }
+]

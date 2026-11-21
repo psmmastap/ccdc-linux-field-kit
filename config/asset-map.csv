@@ -1,0 +1,2 @@
+hostname,os,ip,ipv6,owner,scored_service,protocol,port,allowed_sources,upstream_dependencies,config_path,data_path,backup_location,last_restore_test,notes
+REPLACE,REPLACE,192.0.2.10,,linux,website,tcp,443,scoring-and-required-clients,DNS-and-database,/etc/nginx,/var/www,,,EXAMPLE-ONLY
