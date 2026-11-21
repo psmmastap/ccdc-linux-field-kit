@@ -84,7 +84,7 @@ def inventory(args):
         "container_networks": ["docker", "network", "ls"],
         "packages_deb": ["dpkg-query", "-W"], "packages_rpm": ["rpm", "-qa"],
         "packages_apk": ["apk", "info", "-v"], "capabilities": ["getcap", "-r", "/usr/bin", "/usr/sbin", "/usr/local"],
-        "selinux": ["getenforce"], "apparmor": ["aa-status"],
+        "selinux": ["getenforce"], "apparmor": ["aa-status"], "time_sync": ["timedatectl"],
     }
     files = ["/etc/os-release", "/etc/resolv.conf", "/etc/hosts", "/etc/nsswitch.conf",
              "/etc/fstab", "/etc/ssh/sshd_config", "/etc/ld.so.preload", "/proc/sys/kernel/tainted"]
@@ -150,6 +150,10 @@ def inventory(args):
     tainted = report["files"]["/proc/sys/kernel/tainted"]
     if tainted["status"] == "ok" and tainted["text"].strip() not in ("0", ""):
         print("KERNEL TAINTED: %s (non-zero = module loaded/crashed; note it)" % tainted["text"].strip())
+    time_sync = report["commands"]["time_sync"]
+    if time_sync["status"] == "ok" and "NTP service: active" not in time_sync["stdout"]:
+        line = next((l for l in time_sync["stdout"].splitlines() if "NTP" in l or "synchronized" in l), "")
+        print("TIME SYNC: %s (drift breaks log correlation and scoring - fix if inactive)" % line.strip() or "not synchronized")
     preload = report["files"]["/etc/ld.so.preload"]
     if preload["status"] == "ok" and preload["text"].strip():
         print("WARNING: /etc/ld.so.preload EXISTS and is non-empty - review immediately")

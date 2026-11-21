@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-# Fleet sweeps: run the kit's read-only tools on EVERY host in config/hosts.txt
+# Fleet tools: run the kit's read-only sweeps on EVERY host in config/hosts.txt
 # simultaneously, from the jumpbox. Output collected per-host in ./evidence/fleet-<stamp>/.
 #
-# Usage: sh fleet.sh [oscheck|sweep|status|cmd] ...
+# Usage: sh fleet.sh [oscheck|push|sweep|status|cmd] ...
+#   sh fleet.sh push              copy the kit to every host (rsync, scp fallback)
 #   sh fleet.sh oscheck           probe every host: OS verdict + which to comment out
 #   sh fleet.sh sweep inventory   snapshot OS/network/services on every host
 #   sh fleet.sh sweep accounts    account audit everywhere
@@ -15,6 +16,7 @@
 # hosts.txt entries may use $TEAM (expanded from config/team.conf or the
 # TEAM_NUMBER environment variable). Assumes the kit sits at the same path on
 # every host (default ~/ccdc-linux-field-kit, override with: KIT_PATH=... sh fleet.sh ...).
+# Scored hosts usually have NO internet: use `push` from the jumpbox, not git clone.
 set -u
 KIT_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 HOSTS_FILE="$KIT_ROOT/config/hosts.txt"
@@ -49,6 +51,33 @@ safe_name() { printf '%s' "$1" | tr '@:/' '___'; }
 
 run_one() {  # $1=host  $2=remote command  $3=log path
     ssh "${SSH_OPTS[@]}" "$1" "$2" >"$3" 2>&1
+}
+
+push_kit() {
+    banner
+    mkdir -p "$OUTDIR"
+    if command -v rsync >/dev/null 2>&1; then
+        transport="rsync"
+        copy() { rsync -a -e "ssh ${SSH_OPTS[*]}" --exclude evidence --exclude .git \
+                     "$KIT_ROOT/" "$1:$KIT_PATH/"; }
+    else
+        transport="scp (rsync missing on jumpbox)"
+        copy() { ssh "${SSH_OPTS[@]}" "$1" "mkdir -p $KIT_PATH" \
+                     && scp -q -r "${SSH_OPTS[@]}" "$KIT_ROOT/." "$1:$KIT_PATH/"; }
+    fi
+    printf 'pushing %s -> %s on every host via %s\n' "$KIT_ROOT" "$KIT_PATH" "$transport"
+    pids=()
+    for target in "${TARGETS[@]}"; do
+        ( copy "$target" >"$OUTDIR/$(safe_name "$target").log" 2>&1 ) &
+        pids+=($!)
+    done
+    fail=0
+    for pid in "${pids[@]}"; do wait "$pid" || fail=$((fail+1)); done
+    echo "pushed: $((${#TARGETS[@]} - fail)) ok, $fail failed"
+    for target in "${TARGETS[@]}"; do
+        printf '%-30s %s\n' "$target" "$(tail -n1 "$OUTDIR/$(safe_name "$target").log" 2>/dev/null | head -c 90)"
+    done
+    echo "NEXT: sh fleet.sh oscheck   (then comment out non-Linux hosts)"
 }
 
 oscheck() {
@@ -137,6 +166,7 @@ custom_cmd() {
 }
 
 case "${1:-}" in
+    push)    push_kit ;;
     oscheck) oscheck ;;
     sweep)   [ $# -ge 2 ] || usage
              [ "$2" != hunt ] || { printf 'Hunting is POST-NOON ONLY. Type POST-NOON to confirm: '; read -r answer
