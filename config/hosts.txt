@@ -9,9 +9,20 @@
 # ctrl-rm runs ADDS/LDAP = Windows AD DC: oscheck will flag it - comment it out.
 #
 # --- SERVICE HOSTS ---
+# Original
+#root@192.168.$TEAM.86       # Team$TEAM-ctrl-rm    ADDS, LDAP, DNS, Remote
+#root@192.168.$TEAM.53       # Team$TEAM-sting      Database, Web, Remote
+#root@192.168.$TEAM.109      # Team$TEAM-certified  Certificates, File Sharing
+#root@192.168.$TEAM.23       # Team$TEAM-lookup     DNS, Remote
+#root@192.168.$TEAM.11       # Team$TEAM-whale      Web, DB, Credentials
+#root@192.168.$TEAM.40       # Team$TEAM-andie      Orchestration/HTTP
+#root@192.168.$TEAM.78       # Team$TEAM-chris      Device Management
+#root@192.168.$TEAM.99       # Team$TEAM-comms      Mail, Remote
+
+# Actual
 root@192.168.$TEAM.86       # Team$TEAM-ctrl-rm    ADDS, LDAP, DNS, Remote
-root@192.168.$TEAM.53       # Team$TEAM-sting      Database, Web, Remote
-root@192.168.$TEAM.109      # Team$TEAM-certified  Certificates, File Sharing
+root@192.168.$TEAM.109       # Team$TEAM-sting      Database, Web, Remote
+root@192.168.$TEAM.53      # Team$TEAM-comms  Certificates, File Sharing
 root@192.168.$TEAM.23       # Team$TEAM-lookup     DNS, Remote
 root@192.168.$TEAM.11       # Team$TEAM-whale      Web, DB, Credentials
 root@192.168.$TEAM.40       # Team$TEAM-andie      Orchestration/HTTP
